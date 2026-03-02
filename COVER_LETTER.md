@@ -1,6 +1,6 @@
 Hi,
 
-Two-sided React PWA, very close to GTM, needs Capacitor wrapping for App Store and Google Play — I built a working version of this before reaching out: {VERCEL_URL}
+Two-sided React PWA, very close to GTM, needs Capacitor wrapping for App Store and Google Play — I built a working version of this before reaching out: https://creator-marketplace-ten.vercel.app
 
 The demo shows the creator/buyer experience as a phone-frame app: listing management, order queue, buyer discovery feed. Capacitor keeps your existing codebase intact — no full native rewrite.
 
