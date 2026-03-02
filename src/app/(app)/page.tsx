@@ -1,73 +1,97 @@
-// Dashboard Builder agent replaces this content.
-// This placeholder demonstrates correct card and layout patterns.
-// DO NOT use rounded-xl, shadow-lg, shadow-sm, or hover:-translate-y-* here.
-// All cards use .linear-card. Padding uses --card-padding token.
+"use client";
 
-export default function DashboardPage() {
+import { useState } from "react";
+import { LayoutDashboard, Compass, List, ShoppingBag, TrendingUp } from "lucide-react";
+import { ScreenNavigator } from "@/components/interactions/screen-navigator";
+import { ShopOverviewScreen } from "@/components/screens/shop-overview-screen";
+import { DiscoveryFeedScreen } from "@/components/screens/discovery-feed-screen";
+import { MyListingsScreen } from "@/components/screens/my-listings-screen";
+import { OrdersScreen } from "@/components/screens/orders-screen";
+import { EarningsScreen } from "@/components/screens/earnings-screen";
+import {
+  currentCreator,
+  creators,
+  listings,
+  orders,
+  payouts,
+  dashboardStats,
+  earningsByMonth,
+  starSellerProgress,
+  discoverFeed,
+} from "@/data/mock-data";
+
+// My Listings — only current creator's listings
+const myListings = listings.filter((l) => l.creatorId === currentCreator.id);
+
+const SCREENS = [
+  {
+    id: "shop",
+    label: "Shop",
+    icon: <LayoutDashboard className="w-4 h-4" />,
+  },
+  {
+    id: "discover",
+    label: "Discover",
+    icon: <Compass className="w-4 h-4" />,
+  },
+  {
+    id: "listings",
+    label: "Listings",
+    icon: <List className="w-4 h-4" />,
+  },
+  {
+    id: "orders",
+    label: "Orders",
+    icon: <ShoppingBag className="w-4 h-4" />,
+  },
+  {
+    id: "earnings",
+    label: "Earnings",
+    icon: <TrendingUp className="w-4 h-4" />,
+  },
+];
+
+export default function DemoPage() {
+  const [activeScreen, setActiveScreen] = useState("shop");
+
   return (
-    <div className="space-y-6">
-      {/* Page heading */}
-      <div>
-        <h1 className="text-2xl font-bold">Dashboard</h1>
-        <p className="text-sm text-muted-foreground mt-1">
-          Overview and key metrics
-        </p>
-      </div>
-
-      {/* Stat cards — Dashboard Builder replaces with 4 real KPI cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        {[1, 2, 3, 4].map((n) => (
-          <div
-            key={n}
-            className="linear-card"
-            style={{ padding: "var(--card-padding)" }}
-          >
-            <p className="text-sm font-medium text-muted-foreground">Stat {n}</p>
-            <p className="text-2xl font-bold mt-1 font-mono">--</p>
-          </div>
-        ))}
-      </div>
-
-      {/* Chart area — Dashboard Builder replaces with an interactive chart */}
-      <div
-        className="linear-card"
-        style={{ padding: "var(--card-padding)" }}
-      >
-        <p className="text-sm font-medium mb-4">Chart</p>
-        <div className="h-48 flex items-center justify-center text-sm text-muted-foreground border border-dashed border-border/60 rounded-md">
-          Dashboard Builder: add chart here
-        </div>
-      </div>
-
-      {/* Secondary panel — Dashboard Builder replaces with table or secondary chart */}
-      <div
-        className="linear-card"
-        style={{ padding: "var(--card-padding)" }}
-      >
-        <p className="text-sm font-medium mb-4">Secondary Panel</p>
-        <div className="h-32 flex items-center justify-center text-sm text-muted-foreground border border-dashed border-border/60 rounded-md">
-          Dashboard Builder: add secondary panel here
-        </div>
-      </div>
-
-      {/* Bottom banner — identity & cross-tab CTA (required per spec) */}
-      <div
-        className="rounded-lg border border-primary/20 p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3"
-        style={{ background: "var(--section-dark)" }}
-      >
-        <p className="text-xs text-white/70">
-          This is a live demo built for{" "}
-          <span className="text-white font-medium">{/* APP_CONFIG.projectName — Dashboard Builder adds import */}your project</span>
-        </p>
-        <div className="flex items-center gap-3 text-xs">
-          <a href="/challenges" className="text-primary hover:text-primary/80 transition-colors duration-100">
-            My Approach →
-          </a>
-          <a href="/proposal" className="text-primary hover:text-primary/80 transition-colors duration-100">
-            Work With Me →
-          </a>
-        </div>
-      </div>
-    </div>
+    <ScreenNavigator
+      screens={SCREENS}
+      activeScreen={activeScreen}
+      onScreenChange={setActiveScreen}
+      variant="bottom-tabs"
+      transition="fade"
+    >
+      {activeScreen === "shop" && (
+        <ShopOverviewScreen
+          stats={dashboardStats}
+          earningsByMonth={earningsByMonth}
+          creatorName={currentCreator.name}
+          shopName={currentCreator.shopName}
+          starRating={currentCreator.starRating}
+        />
+      )}
+      {activeScreen === "discover" && (
+        <DiscoveryFeedScreen
+          listings={discoverFeed}
+          creators={creators}
+        />
+      )}
+      {activeScreen === "listings" && (
+        <MyListingsScreen listings={myListings} />
+      )}
+      {activeScreen === "orders" && (
+        <OrdersScreen orders={orders} />
+      )}
+      {activeScreen === "earnings" && (
+        <EarningsScreen
+          earningsByMonth={earningsByMonth}
+          payouts={payouts}
+          starSellerProgress={starSellerProgress}
+          availableBalance={dashboardStats.availableBalance}
+          balanceOnHold={dashboardStats.balanceOnHold}
+        />
+      )}
+    </ScreenNavigator>
   );
 }

@@ -66,12 +66,12 @@ export type DeviceModel =
 //   web3 / crypto        → dark-premium | retrofuturism
 
 export const APP_CONFIG = {
-  appName: "App Name",                       // Display name (sidebar header, page title)
-  projectName: "Project Name",               // Client's product name (tab bar microtext, footer)
+  appName: "CreatorMarket",                  // Display name (sidebar header, page title)
+  projectName: "Creator Marketplace",        // Client's product name (tab bar microtext, footer)
   clientName: null as string | null,         // Client first name, or null — never render "null"
-  domain: "tech",                            // Domain (finance, health, marketplace, tech, etc.)
-  aesthetic: "linear" as AestheticProfile,   // Drives data-theme="..." on <html>
-  demoFormat: "dashboard-app" as DemoFormat,          // Layout architecture for Tab 1
-  deviceModel: undefined as DeviceModel | undefined,  // Device frame model (frame formats only)
-  screenCount: undefined as number | undefined,       // Number of screens in frame demos
+  domain: "marketplace",                     // Domain (finance, health, marketplace, tech, etc.)
+  aesthetic: "e-commerce" as AestheticProfile,  // Drives data-theme="..." on <html>
+  demoFormat: "mobile-app-preview" as DemoFormat, // Layout architecture for Tab 1
+  deviceModel: "iphone-15-pro" as DeviceModel,    // Device frame model (frame formats only)
+  screenCount: 5 as number | undefined,           // Number of screens in frame demos
 } as const;
